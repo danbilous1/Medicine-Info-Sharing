@@ -16,26 +16,41 @@
     <h1>Medicine Info Sharing</h1>
     <div>
       <p>Medicine Name:</p>
-      <p id='name-result'>...</p>
+      <p id='name-result'>Loading..</p>
     </div>
     <div>
       <p>Medicine Producer Name:</p>
-      <p id='producer-result'>...</p>
+      <p id='producer-result'>Loading..</p>
     </div>
     <div>
       <p>Medicine Storage Conditions:</p>
-      <p id='storage-result'>...</p>
+      <p id='storage-result'>Loading..</p>
     </div>
     <div>
       <p>Medicine Expiration Date:</p>
-      <p id='expiration-result'>...</p>
+      <p id='expiration-result'>Loading..</p>
     </div>
     <div>
       <p>Comment:</p>
-      <p id='comment-result'>...</p>
+      <p id='comment-result'>Loading..</p>
     </div>
   </div>
-  <script type="module" src="main.js"></script>
+  <script>
+    const nameResult = document.querySelector('#name-result');
+    const producerResult = document.querySelector('#producer-result');
+    const storageResult = document.querySelector('#storage-result');
+    const expirationResult = document.querySelector('#expiration-result');
+    const commentResult = document.querySelector('#comment-result');
+
+    fetch(window.location.pathname + '/data').then(res => res.json()).then(result => {
+      console.log(result);
+      nameResult.innerText = result.medicine;
+      producerResult.innerText = result.producer;
+      storageResult.innerText = result.storage;
+      expirationResult.innerText = result.expiration;
+      commentResult.innerText = result.comment;
+    })
+  </script>
 </body>
 
 </html>
