@@ -23,14 +23,18 @@ app.post('/api', (req, res) => {
     let link = uuidv4();
     let name = uuidv4();
 
-    app.get(`/api/${link.slice(0,8)}`, (req, res) => {
+    app.get(`/${link.slice(0,8)}`, (req, res) => {
       
       res.sendFile(path.join(__dirname, 'public', 'invite.html'));
+
+      app.get(`/${link.slice(0, 8)}/data`, (req, res) => {
+        res.json(database[name.slice(0,8)]);
+      });
     })
     
     database[name.slice(0,8)] = data;
 
-    res.status(200).json({link: `/api/${link.slice(0,8)}`, info: database[name.slice(0,8)]});
+    res.status(200).json({link: `/${link.slice(0,8)}`, info: database[name.slice(0,8)]});
     console.log(database);
   } else {
     res.status(400).json({ success: false, message: 'No data provided' });
