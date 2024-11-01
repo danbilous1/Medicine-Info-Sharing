@@ -34,6 +34,7 @@
       <p>Comment:</p>
       <p id='comment-result'>Loading..</p>
     </div>
+    <button id="share" class="btn btn-dark mt-2 mb-2">Copy Link to Clipboard</button>
   </div>
   <script>
     const nameResult = document.querySelector('#name-result');
@@ -41,11 +42,27 @@
     const storageResult = document.querySelector('#storage-result');
     const expirationResult = document.querySelector('#expiration-result');
     const commentResult = document.querySelector('#comment-result');
+    const shareBtn = document.querySelector('#share');
+    const container = document.querySelector('.container');
+
+    function Delete(div) {
+      div.remove();
+    };
+    let i = 0;
+    const alert = document.createElement('div');
+
+    shareBtn.addEventListener('click', function() {
+      navigator.clipboard.writeText(window.location.href);
+        alert.classList.add('alert', 'alert-primary');
+        alert.innerText = 'Link copied to clipboard!';
+        container.appendChild(alert);
+        setTimeout(() => Delete(alert), 1500);
+    })
 
     fetch(window.location.pathname + '/data').then(res => res.json()).then(result => {
       console.log(result);
       nameResult.innerText = result.medicine;
-      producerResult.innerText = result.producer;
+      producerResult.innerText = result.producer; 
       storageResult.innerText = result.storage;
       expirationResult.innerText = result.expiration;
       commentResult.innerText = result.comment;
