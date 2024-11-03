@@ -42,11 +42,14 @@ function sendData() {
       let passwordData = "123456789";
 
       password.innerText = "Editing Password: *********";
-      // password.classList.add("mt-4");
       showBtn.innerText = "Show";
       showBtn.classList.add("btn", "btn-outline-dark");
       copyBtn.innerText = "Copy to Clipboard";
       copyBtn.classList.add("btn", "btn-dark");
+
+      function clear(el, text) {
+        el.innerText = text;
+      }
 
       let check = true;
       showBtn.addEventListener("click", function () {
@@ -60,6 +63,8 @@ function sendData() {
       });
       copyBtn.addEventListener("click", function () {
         navigator.clipboard.writeText("Your Editing Password: " + passwordData);
+        copyBtn.innerText = "Copied to Clipboard";
+        setTimeout(() => clear(copyBtn, "Copy to Clipboard"), 1500);
       });
 
       alert.classList.remove("alert-danger");
@@ -150,3 +155,4 @@ sendBtn.addEventListener("click", function () {
     setTimeout(() => Delete(alert), 3000);
   }
 });
+
