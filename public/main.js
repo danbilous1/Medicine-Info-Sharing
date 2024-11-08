@@ -9,6 +9,16 @@ let link = "";
 let i = 1;
 let data;
 const alert = document.createElement("div");
+const date = new Date();
+
+let day = date.getDate();
+let month = date.getMonth() + 1;
+let year = date.getFullYear();
+if (day < 10) {
+  expiration.value = `${year}-${month}-0${day}`;
+} else {
+  expiration.value = `${year}-${month}-${day}`;
+}
 
 function sendData() {
   data = {
@@ -29,6 +39,11 @@ function sendData() {
     .then((res) => res.json())
     .then((result) => {
       link = result.link;
+      medicine.value = "";
+      producer.value = "";
+      storage.value = "";
+      expiration.value = "";
+      comment.value = "";
 
       const container = document.querySelector(".container");
       const sendContainer = document.querySelector(".send-container");
@@ -155,4 +170,5 @@ sendBtn.addEventListener("click", function () {
     setTimeout(() => Delete(alert), 3000);
   }
 });
+
 
