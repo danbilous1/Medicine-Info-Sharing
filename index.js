@@ -26,7 +26,7 @@ app.post("/api", (req, res) => {
     app.get(`/${link.slice(0, 8)}`, (req, res) => {
       res.sendFile(path.join(__dirname, "public", "invite.html"));
 
-      app.get("/${link.slice(0, 8)}/pass", (req, res) => {
+      app.post("/${link.slice(0, 8)}/pass", (req, res) => {
         res.status(200);
       })
 
