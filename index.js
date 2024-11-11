@@ -26,6 +26,10 @@ app.post("/api", (req, res) => {
     app.get(`/${link.slice(0, 8)}`, (req, res) => {
       res.sendFile(path.join(__dirname, "public", "invite.html"));
 
+      app.get("/${link.slice(0, 8)}/pass", (req, res) => {
+        
+      })
+
       app.get(`/${link.slice(0, 8)}/data`, (req, res) => {
         res.json(database[name.slice(0, 8)]); // with updated invite, you return only inviteName - comment
       });
