@@ -29,7 +29,13 @@ app.post("/api", (req, res) => {
       res.sendFile(path.join(__dirname, "public", "invite.html"));
 
       app.post(`/${link.slice(0, 8)}/check`, (req, res) => {
-        let body = req.body;
+        const { pass } = req.body;
+
+        if (data.pass == pass) {
+          res.json({ check: pass });
+        } else {
+          res.status(400);
+        }
       });
 
       app.get(`/${link.slice(0, 8)}/data`, (req, res) => {
@@ -52,24 +58,3 @@ app.post("/api", (req, res) => {
 app.listen(3000, () => {
   console.log("Express server initialized");
 });
-
-// HERE IS HOW INVITE INFO NEEDS TO LOOK:
-// UPDATED INVITE
-// d5693c94: {
-//     inviteName: 'd5693c94',
-//     medicine: 'd',
-//     producer: 'd',
-//     storage: 'd',
-//     expiration: 'd',
-//     comment: 'd',
-//     password: 'random generated with uuid',
-//   }
-
-// OLD INVITE
-// d5693c94: {
-//     medicine: 'd',
-//     producer: 'd',
-//     storage: 'd',
-//     expiration: 'd',
-//     comment: 'd'
-//   }
