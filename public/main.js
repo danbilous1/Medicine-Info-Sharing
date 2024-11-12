@@ -38,6 +38,7 @@ function sendData() {
   })
     .then((res) => res.json())
     .then((result) => {
+      console.log(result);
       link = result.link;
       medicine.value = "";
       producer.value = "";
@@ -54,7 +55,7 @@ function sendData() {
       const showBtn = document.createElement("button");
       const copyBtn = document.createElement("button");
 
-      let passwordData = "123456789";
+      let passwordData = result.pass;
 
       password.innerText = "Editing Password: *********";
       showBtn.innerText = "Show";
@@ -170,5 +171,3 @@ sendBtn.addEventListener("click", function () {
     setTimeout(() => Delete(alert), 3000);
   }
 });
-
-
