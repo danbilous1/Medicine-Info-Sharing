@@ -62,6 +62,20 @@
       const sendBtn = document.querySelector(".pass-btn");
       const sendInput = document.querySelector(".pass-send");
 
+      sendBtn.addEventListener("click", function () {
+        fetch(window.location.pathname + "/check", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ pass: sendInput.value }),
+        })
+          .then((res) => res.json())
+          .then((result) => {
+            console.log(result);
+          });
+      });
+
       function Delete(div) {
         div.remove();
       }
@@ -95,3 +109,4 @@
     </script>
   </body>
 </html>
+
