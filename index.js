@@ -22,13 +22,15 @@ app.post("/api", (req, res) => {
   if (data && data.medicine) {
     let link = uuidv4();
     let name = uuidv4();
+    let pass = uuidv4();
+    data.pass = pass.slice(0, 8);
 
     app.get(`/${link.slice(0, 8)}`, (req, res) => {
       res.sendFile(path.join(__dirname, "public", "invite.html"));
 
-      app.post("/${link.slice(0, 8)}/pass", (req, res) => {
-        res.status(200);
-      })
+      app.post(`/${link.slice(0, 8)}/check`, (req, res) => {
+        let body = req.body;
+      });
 
       app.get(`/${link.slice(0, 8)}/data`, (req, res) => {
         res.json(database[name.slice(0, 8)]); // with updated invite, you return only inviteName - comment
@@ -37,9 +39,10 @@ app.post("/api", (req, res) => {
 
     database[name.slice(0, 8)] = data;
 
-    res
-      .status(200)
-      .json({ link: `/${link.slice(0, 8)}`, info: database[name.slice(0, 8)] });
+    res.status(200).json({
+      link: `/${link.slice(0, 8)}`,
+      pass: data.pass,
+    });
     console.log(database);
   } else {
     res.status(400).json({ success: false, message: "No data provided" });
