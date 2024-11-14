@@ -98,11 +98,59 @@
         })
           .then((res) => res.json())
           .then((result) => {
-            console.log("dd");
-            console.log(result);
+            if (result) {
+              console.log("WORKED");
+
+              container.innerHTML = `
+              <h1>Medicine Info Sharing Editing</h1>
+      <div>
+        <p>Medicine Name:</p>
+        <input
+          class="form-control pass-send mb-2"
+          placeholder="${nameResult.innerText}"
+        />
+      </div>
+      <div>
+        <p>Medicine Producer Name:</p>
+        <input
+          class="form-control pass-send mb-2"
+          placeholder="${nameResult.innerText}"
+        />
+      </div>
+      <div>
+        <p>Medicine Storage Conditions:</p>
+        <input
+          class="form-control pass-send mb-2"
+          placeholder="${nameResult.innerText}"
+        />
+      </div>
+      <div>
+        <p>Medicine Expiration Date:</p>
+        <input
+          class="form-control pass-send mb-2"
+          placeholder="${nameResult.innerText}"
+        />
+      </div>
+      <div>
+        <p>Comment:</p>
+        <input
+          class="form-control pass-send mb-3"
+          placeholder="${nameResult.innerText}"
+        />
+      </div>
+      <div class="mt-3">
+        <button type="submit" class="btn btn-primary pass-btn">
+          Save
+        </button>
+      </div>
+              `;
+            } else {
+              console.log("DIDN'T WORK");
+            }
           });
       });
     </script>
   </body>
 </html>
+
 
