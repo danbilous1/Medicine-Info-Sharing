@@ -15,14 +15,14 @@ app.get("/", (req, res) => {
 });
 
 const database = {};
+let link = uuidv4();
+let name = uuidv4();
+let pass = uuidv4();
 
 app.post("/api", (req, res) => {
   const { data } = req.body;
 
   if (data && data.medicine) {
-    let link = uuidv4();
-    let name = uuidv4();
-    let pass = uuidv4();
     data.pass = pass.slice(0, 8);
 
     app.get(`/${link.slice(0, 8)}`, (req, res) => {
@@ -31,15 +31,15 @@ app.post("/api", (req, res) => {
       app.post(`/${link.slice(0, 8)}/check`, (req, res) => {
         const { pass } = req.body;
 
-        if (data.pass == pass) {
-          res.json({ check: pass });
+        if (data && data.pass === pass) {
+          res.json("Password is correct");
         } else {
-          res.status(400);
+          res.status(400).json({ error: "Incorrect password" });
         }
       });
 
       app.get(`/${link.slice(0, 8)}/data`, (req, res) => {
-        res.json(database[name.slice(0, 8)]); // with updated invite, you return only inviteName - comment
+        res.json(database[name.slice(0, 8)]);
       });
     });
 
