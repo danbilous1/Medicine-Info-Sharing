@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
+import session from "express-session";
 
 const app = express();
 app.use(express.json());
@@ -32,9 +33,18 @@ app.post("/api", (req, res) => {
         const { pass } = req.body;
 
         if (data && data.pass === pass) {
-          res.json("Password is correct");
+          app.use(
+            session({
+              secret: uuidv4(),
+              resave: false,
+              saveUninitialized: true,
+              cookie: { maxAge: 60000 }, // 1 min for demo purposes
+            })
+          );
+
+          res.json(true);
         } else {
-          res.status(400).json({ error: "Incorrect password" });
+          res.status(400).json(false);
         }
       });
 
