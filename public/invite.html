@@ -62,20 +62,6 @@
       const sendBtn = document.querySelector(".pass-btn");
       const sendInput = document.querySelector(".pass-send");
 
-      sendBtn.addEventListener("click", function () {
-        fetch(window.location.pathname + "/check", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ pass: sendInput.value }),
-        })
-          .then((res) => res.json())
-          .then((result) => {
-            console.log(result);
-          });
-      });
-
       function Delete(div) {
         div.remove();
       }
@@ -94,13 +80,28 @@
         .then((res) => res.json())
         .then((result) => {
           console.log(result);
-          // we need invite name here, so we can use password feature
           nameResult.innerText = result.medicine;
           producerResult.innerText = result.producer;
           storageResult.innerText = result.storage;
           expirationResult.innerText = result.expiration;
           commentResult.innerText = result.comment;
         });
+
+      sendBtn.addEventListener("click", function () {
+        console.log("test", window.location.pathname + "/check");
+        fetch(window.location.pathname + "/check", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ pass: sendInput.value }),
+        })
+          .then((res) => res.json())
+          .then((result) => {
+            console.log("dd");
+            console.log(result);
+          });
+      });
     </script>
   </body>
 </html>
