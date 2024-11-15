@@ -27,24 +27,37 @@ app.post("/api", (req, res) => {
     data.pass = pass.slice(0, 8);
 
     app.get(`/${link.slice(0, 8)}`, (req, res) => {
+      const session = session({
+        secret: uuidv4(),
+        resave: false,
+        saveUninitialized: true,
+        cookie: { maxAge: 60000 },
+      });
+
       res.sendFile(path.join(__dirname, "public", "invite.html"));
 
       app.post(`/${link.slice(0, 8)}/check`, (req, res) => {
         const { pass } = req.body;
 
         if (data && data.pass === pass) {
-          app.use(
-            session({
-              secret: uuidv4(),
-              resave: false,
-              saveUninitialized: true,
-              cookie: { maxAge: 60000 }, // 1 min for demo purposes
-            })
-          );
+          app.use(session);
+
+          req.session.data = data;
+          setTimeout(() => {
+            req.session.destroy();
+          }, 60000);
 
           res.json(true);
         } else {
           res.status(400).json(false);
+        }
+      });
+
+      app.get(`/${link.slice(0, 8)}/session-status`, (req, res) => {
+        if (req.session && req.session.data) {
+          res.json({ active: true });
+        } else {
+          res.json({ active: false });
         }
       });
 
