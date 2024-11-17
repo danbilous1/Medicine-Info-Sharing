@@ -6,14 +6,18 @@ import session from "express-session";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static("public"));
 const __dirname = path.resolve();
-app.set("index", path.join(__dirname, "index"));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+// Global session middleware
+app.use(
+  session({
+    secret: uuidv4(),
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 },
+  })
+);
 
 const database = {};
 let link = uuidv4();
@@ -27,43 +31,30 @@ app.post("/api", (req, res) => {
     data.pass = pass.slice(0, 8);
 
     app.get(`/${link.slice(0, 8)}`, (req, res) => {
-      const session = session({
-        secret: uuidv4(),
-        resave: false,
-        saveUninitialized: true,
-        cookie: { maxAge: 60000 },
-      });
-
       res.sendFile(path.join(__dirname, "public", "invite.html"));
+    });
 
-      app.post(`/${link.slice(0, 8)}/check`, (req, res) => {
-        const { pass } = req.body;
+    app.post(`/${link.slice(0, 8)}/check`, (req, res) => {
+      const { pass } = req.body;
 
-        if (data && data.pass === pass) {
-          app.use(session);
+      if (data && data.pass === pass) {
+        req.session.data = data; // Session starts here
+        req.session.pass = pass;
+        res.json(true);
+      } else {
+        res.status(400).json(false);
+      }
+    });
 
-          req.session.data = data;
-          setTimeout(() => {
-            req.session.destroy();
-          }, 60000);
+    app.patch(`/${link.slice(0, 8)}/edit`, (req, res) => {
+      if (req.session && req.session.pass == data.pass) {
+      } else {
+        res.json({ sessionStatus: "Session is expired" });
+      }
+    });
 
-          res.json(true);
-        } else {
-          res.status(400).json(false);
-        }
-      });
-
-      app.get(`/${link.slice(0, 8)}/session-status`, (req, res) => {
-        if (req.session && req.session.data) {
-          res.json({ active: true });
-        } else {
-          res.json({ active: false });
-        }
-      });
-
-      app.get(`/${link.slice(0, 8)}/data`, (req, res) => {
-        res.json(database[name.slice(0, 8)]);
-      });
+    app.get(`/${link.slice(0, 8)}/data`, (req, res) => {
+      res.json(database[name.slice(0, 8)]);
     });
 
     database[name.slice(0, 8)] = data;
