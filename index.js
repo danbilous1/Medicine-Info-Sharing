@@ -47,9 +47,21 @@ app.post("/api", (req, res) => {
     });
 
     app.patch(`/${link.slice(0, 8)}/edit`, (req, res) => {
-      if (req.session && req.session.pass == data.pass) {
+      const { patchBody } = req.body;
+      console.log("THIS THIS", database[name.slice(0, 8)]);
+
+      if (req.session && req.session.pass === data.pass) {
+        console.log(database[name.slice(0, 8)].medicine, patchBody.medicine);
+        database[name.slice(0, 8)].medicine = patchBody.medicine;
+        database[name.slice(0, 8)].producer = patchBody.producer;
+        database[name.slice(0, 8)].storage = patchBody.storage;
+        database[name.slice(0, 8)].expiration = patchBody.expiration;
+        database[name.slice(0, 8)].comment = patchBody.comment;
+        res.json(database[name.slice(0, 8)]);
       } else {
-        res.json({ sessionStatus: "Session is expired" });
+        res.json({
+          sessionStatus: "Session is expired or password is not correct.",
+        });
       }
     });
 
@@ -72,3 +84,4 @@ app.post("/api", (req, res) => {
 app.listen(3000, () => {
   console.log("Express server initialized");
 });
+
