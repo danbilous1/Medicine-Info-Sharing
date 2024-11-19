@@ -106,44 +106,68 @@
       <div>
         <p>Medicine Name:</p>
         <input
-          class="form-control pass-send mb-2"
+          class="form-control pass-send mb-2 name"
           placeholder="${nameResult.innerText}"
         />
       </div>
       <div>
         <p>Medicine Producer Name:</p>
         <input
-          class="form-control pass-send mb-2"
+          class="form-control pass-send mb-2 producer"
           placeholder="${nameResult.innerText}"
         />
       </div>
       <div>
         <p>Medicine Storage Conditions:</p>
         <input
-          class="form-control pass-send mb-2"
+          class="form-control pass-send mb-2 storage"
           placeholder="${nameResult.innerText}"
         />
       </div>
       <div>
         <p>Medicine Expiration Date:</p>
         <input
-          class="form-control pass-send mb-2"
-          placeholder="${nameResult.innerText}"
+          id="expiration"
+          type="date"
+          class="form-control w-50 mb-3 date"
+          placeholder="Write Expiration Date"
         />
       </div>
       <div>
         <p>Comment:</p>
         <input
-          class="form-control pass-send mb-3"
+          class="form-control pass-send mb-3 comment"
           placeholder="${nameResult.innerText}"
         />
       </div>
       <div class="mt-3">
-        <button type="submit" class="btn btn-primary pass-btn">
+        <button type="submit" class="btn btn-primary save">
           Save
         </button>
       </div>
               `;
+              const saveBtn = document.querySelector(".save");
+              saveBtn.addEventListener("click", function () {
+                const saveData = {
+                  medicine: document.querySelector(".name").value,
+                  producer: document.querySelector(".producer").value,
+                  storage: document.querySelector(".storage").value,
+                  expiration: document.querySelector(".date").value,
+                  comment: document.querySelector(".comment").value,
+                };
+
+                fetch(window.location.pathname + "/edit", {
+                  method: "PATCH",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ patchBody: saveData }),
+                })
+                  .then((res) => res.json())
+                  .then((result) => {
+                    console.log(result);
+                  });
+              });
             } else {
               console.log("DIDN'T WORK");
             }
