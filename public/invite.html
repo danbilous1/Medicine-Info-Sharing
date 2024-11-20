@@ -114,14 +114,14 @@
         <p>Medicine Producer Name:</p>
         <input
           class="form-control pass-send mb-2 producer"
-          placeholder="${nameResult.innerText}"
+          placeholder="${producerResult.innerText}"
         />
       </div>
       <div>
         <p>Medicine Storage Conditions:</p>
         <input
           class="form-control pass-send mb-2 storage"
-          placeholder="${nameResult.innerText}"
+          placeholder="${storageResult.innerText}"
         />
       </div>
       <div>
@@ -137,7 +137,7 @@
         <p>Comment:</p>
         <input
           class="form-control pass-send mb-3 comment"
-          placeholder="${nameResult.innerText}"
+          placeholder="${commentResult.innerText}"
         />
       </div>
       <div class="mt-3">
@@ -168,6 +168,8 @@
                     console.log(result);
                   });
               });
+            } else {
+              console.log("DIDN'T WORK");
             }
           });
       });
