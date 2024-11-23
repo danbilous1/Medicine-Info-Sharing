@@ -65,10 +65,6 @@ app.post("/api", (req, res) => {
         body("patchBody.expiration")
           .isISO8601()
           .withMessage("Expiration must be a valid ISO8601 date"),
-        body("patchBody.comment")
-          .isString()
-          .optional() // Comment is optional
-          .withMessage("Comment must be a string"),
       ],
       (req, res) => {
         const errors = validationResult(req);
