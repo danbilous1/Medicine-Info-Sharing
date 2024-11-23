@@ -69,11 +69,12 @@ app.post("/api", (req, res) => {
       (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          return res.status(400).json({ errors: errors.array() });
+          return res
+            .status(400)
+            .json({ message: "Inputs are empty or non-valid" });
         }
 
         const { patchBody } = req.body;
-        console.log("THIS THIS", database[name.slice(0, 8)]);
 
         if (req.session && req.session.pass === data.pass) {
           if (
@@ -88,7 +89,7 @@ app.post("/api", (req, res) => {
             database[name.slice(0, 8)].storage = patchBody.storage;
             database[name.slice(0, 8)].expiration = patchBody.expiration;
             database[name.slice(0, 8)].comment = patchBody.comment;
-            res.json(database[name.slice(0, 8)]);
+            res.json(true);
           } else {
             res.json({ message: "No changes detected." });
           }
