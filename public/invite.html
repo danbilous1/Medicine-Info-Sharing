@@ -165,7 +165,17 @@
                 })
                   .then((res) => res.json())
                   .then((result) => {
-                    console.log(result);
+                    if (result == true) {
+                      alert.classList.add("alert", "alert-primary", "mt-4");
+                      alert.innerText = "Information was changed.";
+                      container.appendChild(alert);
+                      setTimeout(() => Delete(alert), 1500);
+                    } else {
+                      alert.classList.add("alert", "alert-danger", "mt-4");
+                      alert.innerText = result.message;
+                      container.appendChild(alert);
+                      setTimeout(() => Delete(alert), 1500);
+                    }
                   });
               });
             } else {
@@ -176,5 +186,4 @@
     </script>
   </body>
 </html>
-
 
