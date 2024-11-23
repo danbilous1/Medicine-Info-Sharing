@@ -90,7 +90,6 @@ app.post("/api", (req, res) => {
             database[name.slice(0, 8)].comment = patchBody.comment;
             res.json(database[name.slice(0, 8)]);
           } else {
-            console.log("DDDDDDDDDD");
             res.json({ message: "No changes detected." });
           }
         } else {
