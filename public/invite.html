@@ -100,6 +100,16 @@
           .then((result) => {
             if (result) {
               console.log("WORKED");
+              const date = new Date();
+              let day = date.getDate();
+              let month = date.getMonth() + 1;
+              let year = date.getFullYear();
+              let time;
+              if (day < 10) {
+                time = `${year}-${month}-0${day}`;
+              } else {
+                time = `${year}-${month}-${day}`;
+              }
 
               container.innerHTML = `
               <h1>Medicine Info Sharing Editing</h1>
@@ -130,7 +140,7 @@
           id="expiration"
           type="date"
           class="form-control w-50 mb-3 date"
-          placeholder=""
+          placeholder="${time}"
         />
       </div>
       <div>
@@ -186,3 +196,4 @@
     </script>
   </body>
 </html>
+
