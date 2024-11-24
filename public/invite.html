@@ -99,7 +99,6 @@
           .then((res) => res.json())
           .then((result) => {
             if (result) {
-              console.log("WORKED");
               const date = new Date();
               let day = date.getDate();
               let month = date.getMonth() + 1;
@@ -184,12 +183,15 @@
                       alert.classList.add("alert", "alert-danger", "mt-4");
                       alert.innerText = result.message;
                       container.appendChild(alert);
-                      setTimeout(() => Delete(alert), 1500);
+                      setTimeout(() => Delete(alert), 2000);
                     }
                   });
               });
             } else {
-              console.log("DIDN'T WORK");
+              alert.classList.add("alert", "alert-danger", "mt-4");
+              alert.innerText = "Password is not correct.";
+              container.appendChild(alert);
+              setTimeout(() => Delete(alert), 2000);
             }
           });
       });
