@@ -21,20 +21,23 @@ app.use(
 );
 
 const database = {};
-let link = uuidv4();
-let name = uuidv4();
-let pass = uuidv4();
 
 app.post("/api", (req, res) => {
+  let link = uuidv4();
+  let pass = uuidv4();
+  let name = uuidv4();
+
   const { data } = req.body;
 
   if (data && data.medicine) {
     data.pass = pass.slice(0, 8);
 
+    // Invite link.
     app.get(`/${link.slice(0, 8)}`, (req, res) => {
       res.sendFile(path.join(__dirname, "public", "invite.html"));
     });
 
+    // Checking password for editing permission.
     app.post(`/${link.slice(0, 8)}/check`, (req, res) => {
       const { pass } = req.body;
 
@@ -47,6 +50,7 @@ app.post("/api", (req, res) => {
       }
     });
 
+    // Request to edit
     app.patch(
       `/${link.slice(0, 8)}/edit`,
       [
@@ -101,6 +105,7 @@ app.post("/api", (req, res) => {
       }
     );
 
+    // Data for invite link.
     app.get(`/${link.slice(0, 8)}/data`, (req, res) => {
       res.json(database[name.slice(0, 8)]);
     });
