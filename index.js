@@ -67,6 +67,7 @@ app.post(
       });
 
       app.delete(`/${link.slice(0, 8)}`, (req, res) => {
+        // before deleting check if password and session is correct
         const body = req.body;
         delete database[body];
         deleted = true;
@@ -162,3 +163,4 @@ app.post(
 app.listen(3000, () => {
   console.log("Express server initialized");
 });
+
