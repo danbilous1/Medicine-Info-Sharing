@@ -61,6 +61,12 @@ app.post(
         res.sendFile(path.join(__dirname, "public", "invite.html"));
       });
 
+      app.delete(`/${link.slice(0, 8)}`, (req, res) => {
+        const body = req.body;
+        delete database[body];
+        res.sendFile(path.join(__dirname, "public", "404.html"));
+      });
+
       // Checking password for editing permission.
       app.post(`/${link.slice(0, 8)}/check`, (req, res) => {
         const { pass } = req.body;
@@ -68,7 +74,7 @@ app.post(
         if (data && data.pass === pass) {
           req.session.data = data; // Session starts here
           req.session.pass = pass;
-          res.json(true);
+          res.json({ res: true, name: name.slice(0, 8) });
         } else {
           res.status(400).json(false);
         }
