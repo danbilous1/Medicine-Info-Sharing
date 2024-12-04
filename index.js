@@ -21,6 +21,7 @@ app.use(
 );
 
 const database = {};
+let deleted = false;
 
 app.post(
   "/api",
@@ -58,13 +59,18 @@ app.post(
 
       // Invite link.
       app.get(`/${link.slice(0, 8)}`, (req, res) => {
-        res.sendFile(path.join(__dirname, "public", "invite.html"));
+        if (deleted) {
+          res.sendFile(path.join(__dirname, "public", "404.html"));
+        } else {
+          res.sendFile(path.join(__dirname, "public", "invite.html"));
+        }
       });
 
       app.delete(`/${link.slice(0, 8)}`, (req, res) => {
         const body = req.body;
         delete database[body];
-        res.sendFile(path.join(__dirname, "public", "404.html"));
+        deleted = true;
+        res.redirect(`/${link.slice(0, 8)}`);
       });
 
       // Checking password for editing permission.
