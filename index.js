@@ -67,13 +67,14 @@ app.post(
       });
 
       app.delete(`/${link.slice(0, 8)}`, (req, res) => {
-        // before deleting check if password and session is correct
-        const body = req.body;
-        delete database[body];
-        deleted = true;
-        res
-          .status(200)
-          .json({ message: "Deleted successfully", redirectTo: "/" });
+        if (data && data.pass === pass) {
+          const body = req.body;
+          delete database[body];
+          deleted = true;
+          res
+            .status(200)
+            .json({ message: "Deleted successfully", redirectTo: "/" });
+        } 
       });
 
       // Checking password for editing permission.
