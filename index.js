@@ -71,7 +71,9 @@ app.post(
         const body = req.body;
         delete database[body];
         deleted = true;
-        res.redirect(`/${link.slice(0, 8)}`);
+        res
+          .status(200)
+          .json({ message: "Deleted successfully", redirectTo: "/" });
       });
 
       // Checking password for editing permission.
@@ -163,4 +165,3 @@ app.post(
 app.listen(3000, () => {
   console.log("Express server initialized");
 });
-
