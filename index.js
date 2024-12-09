@@ -67,21 +67,26 @@ app.post(
       });
 
       app.delete(`/${link.slice(0, 8)}`, (req, res) => {
-        if (data && data.pass === pass) {
+        if (
+          req.session &&
+          req.session.pass === database[name.slice(0, 8)].pass
+        ) {
           const body = req.body;
           delete database[body];
           deleted = true;
           res
             .status(200)
             .json({ message: "Deleted successfully", redirectTo: "/" });
-        } 
+        } else {
+          res.status(400).json(false);
+        }
       });
 
       // Checking password for editing permission.
       app.post(`/${link.slice(0, 8)}/check`, (req, res) => {
         const { pass } = req.body;
-
-        if (data && data.pass === pass) {
+        // instead of data, needs to be database[name.slice(0, 8)].pass
+        if (pass === database[name.slice(0, 8)].pass) {
           req.session.data = data; // Session starts here
           req.session.pass = pass;
           res.json({ res: true, name: name.slice(0, 8) });
@@ -120,7 +125,10 @@ app.post(
 
           const { patchBody } = req.body;
 
-          if (req.session && req.session.pass === data.pass) {
+          if (
+            req.session &&
+            req.session.pass === database[name.slice(0, 8)].pass
+          ) {
             if (
               patchBody.medicine !== database[name.slice(0, 8)].medicine ||
               patchBody.producer !== database[name.slice(0, 8)].producer ||
